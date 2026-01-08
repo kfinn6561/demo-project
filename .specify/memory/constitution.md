@@ -1,50 +1,156 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+  Sync Impact Report
+  ==================
+  Version change: (new constitution) → 1.0.0
+  Type: MAJOR (initial ratification)
+
+  Principles defined:
+  - I. Clear Documentation
+  - II. Simplicity & YAGNI
+  - III. Incremental Delivery
+  - IV. Test Coverage
+  - V. Review & Validation
+
+  Templates status:
+  - ✅ plan-template.md: Constitution Check section references this file
+  - ✅ spec-template.md: Aligned with documentation and user story principles
+  - ✅ tasks-template.md: Aligned with incremental delivery and testing principles
+  - ✅ agent-file-template.md: No updates required (runtime guidance only)
+  - ⚠ Command files: No agent-specific references found - validation passed
+
+  Follow-up TODOs: None
+-->
+
+# demo-project Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Clear Documentation
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Every feature MUST be documented before implementation:
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+- Specifications define WHAT users need and WHY (no implementation details)
+- Implementation plans detail HOW to build (technical decisions, architecture, contracts)
+- Task lists break work into independently testable increments
+- Each document MUST be complete, unambiguous, and approved before proceeding to next phase
+- Code should be self-explanatory; comments explain WHY, not WHAT
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+**Rationale**: Documentation ensures alignment between stakeholders and developers, prevents
+scope creep, and creates a knowledge base for future maintainers. Without clear specs,
+features drift from user needs; without plans, implementation becomes ad-hoc and error-prone.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### II. Simplicity & YAGNI
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Start simple and build only what is needed now:
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Resist premature abstraction - three similar lines is better than a premature helper function
+- No speculative features, configuration options, or architectural patterns
+- When solving a problem, choose the simplest solution that works
+- Complexity MUST be justified in the plan's Complexity Tracking section
+- Refactor when patterns emerge naturally from real usage, not anticipated usage
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+**Rationale**: Over-engineering creates maintenance burden, cognitive overhead, and technical
+debt. Simple code is easier to understand, test, debug, and modify. Future requirements are
+unpredictable; building for hypothetical scenarios wastes effort and often solves the wrong
+problem.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### III. Incremental Delivery
+
+Ship features in independently testable, user-valuable increments:
+
+- User stories MUST be prioritized (P1, P2, P3) by user value
+- Each story MUST be independently implementable and testable
+- P1 stories form the Minimum Viable Product (MVP)
+- Complete and validate one story before starting the next
+- Deploy and gather feedback at each increment
+
+**Rationale**: Incremental delivery reduces risk by validating assumptions early, allows
+course correction based on real user feedback, and delivers value progressively rather than
+in a single big-bang release. Independent stories enable parallel development and graceful
+degradation if priorities shift.
+
+### IV. Test Coverage
+
+Maintain comprehensive test coverage appropriate to risk:
+
+- Unit tests for business logic and edge cases
+- Integration tests for inter-service communication and data flows
+- Contract tests for API boundaries and shared schemas
+- Test coverage MUST increase when bugs are found (regression prevention)
+- Tests document expected behavior and serve as executable specifications
+
+**Rationale**: Tests catch regressions, document system behavior, enable confident refactoring,
+and reduce debugging time. Appropriate test coverage ensures reliability without over-testing
+trivial code. Contract tests prevent breaking changes across service boundaries.
+
+### V. Review & Validation
+
+All work products require validation before proceeding:
+
+- Specifications validated against quality checklist before planning
+- Plans reviewed for constitutional compliance before implementation
+- Code reviewed for correctness, security, and adherence to principles
+- Each phase gate MUST pass before proceeding to next phase
+- Validation findings MUST be addressed, not bypassed
+
+**Rationale**: Reviews catch errors early when they're cheapest to fix, ensure constitutional
+compliance, transfer knowledge across team members, and maintain consistent quality standards.
+Phase gates prevent cascading failures from poor foundations.
+
+## Development Workflow
+
+### Phase Sequence
+
+All features MUST follow this workflow:
+
+1. **Specification** (`/speckit.specify`): Define WHAT and WHY
+   - Validation: Spec quality checklist MUST pass
+   - Output: `specs/###-feature-name/spec.md`
+
+2. **Planning** (`/speckit.plan`): Define HOW
+   - Validation: Constitution Check MUST pass (unjustified complexity fails build)
+   - Output: `plan.md`, `research.md`, `data-model.md`, `contracts/`, `quickstart.md`
+
+3. **Task Breakdown** (`/speckit.tasks`): Define WHEN and WHO
+   - Validation: Tasks organized by user story with clear dependencies
+   - Output: `tasks.md`
+
+4. **Implementation** (`/speckit.implement`): Execute tasks in priority order
+   - Validation: Tests pass, code review approves, story acceptance criteria met
+   - Output: Working, tested, documented feature increment
+
+### Cross-Cutting Requirements
+
+- **Security**: Validate inputs at system boundaries; trust internal code and framework guarantees
+- **Error Handling**: User-facing errors MUST be actionable; log technical details separately
+- **Performance**: Meet domain-specific goals defined in plan's Technical Context
+- **Observability**: Structured logging for debugging; metrics for SLA monitoring
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+### Amendment Process
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+1. Proposed changes MUST include rationale and impact analysis
+2. Constitution Check gates in plans MUST be updated to reflect new principles
+3. Version MUST increment following semantic versioning:
+   - MAJOR: Backward-incompatible governance changes, principle removal/redefinition
+   - MINOR: New principle or materially expanded guidance
+   - PATCH: Clarifications, wording fixes, non-semantic refinements
+4. All dependent templates MUST be reviewed and updated if affected
+5. Amendments take effect immediately upon ratification
+
+### Compliance
+
+- All pull requests MUST verify constitutional compliance
+- Plans with unjustified complexity violations MUST NOT proceed to implementation
+- Specifications with incomplete quality checklists MUST NOT proceed to planning
+- Principle violations discovered post-implementation MUST be tracked as technical debt
+
+### Conflict Resolution
+
+- This constitution supersedes all other practices, conventions, and documentation
+- In case of ambiguity, favor Simplicity & YAGNI (Principle II)
+- When principles conflict, prioritize in order: Clear Documentation → Incremental Delivery →
+  Test Coverage → Simplicity → Review
+
+**Version**: 1.0.0 | **Ratified**: 2026-01-08 | **Last Amended**: 2026-01-08

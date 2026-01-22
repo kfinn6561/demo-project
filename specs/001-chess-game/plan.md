@@ -14,7 +14,7 @@ Build a web-based chess game for local two-player gameplay on the same device. T
 **Language/Version**: JavaScript/TypeScript with Next.js 14+ (React 18+), Node.js 18+
 **Primary Dependencies**: Next.js (framework), React (UI), TypeScript (type safety)
 **Storage**: Client-side state only (no persistence required per spec Assumption 5)
-**Testing**: Jest + React Testing Library (unit/integration), Playwright (optional E2E)
+**Testing**: Jest + React Testing Library (unit/integration), Playwright E2E (deferred post-MVP - manual testing sufficient for initial release)
 **Target Platform**: Modern web browsers (Chrome, Firefox, Safari, Edge - last 2 versions)
 **Project Type**: Web application (Next.js single-page app)
 **Performance Goals**: <2s initial load, <100ms move feedback, 60 FPS animations

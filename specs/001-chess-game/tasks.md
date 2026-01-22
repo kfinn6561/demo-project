@@ -24,14 +24,14 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Initialize Next.js project with TypeScript in repository root using create-next-app
-- [ ] T002 [P] Configure TypeScript compiler options in tsconfig.json (strict mode, path aliases)
-- [ ] T003 [P] Set up ESLint and Prettier configurations in .eslintrc.json and .prettierrc
-- [ ] T004 [P] Install core dependencies: react@18, react-dom@18, next@14, typescript
-- [ ] T005 [P] Create directory structure: src/app/, src/components/, src/lib/, src/__tests__/
-- [ ] T006 [P] Configure Tailwind CSS in tailwind.config.js and src/app/globals.css
-- [ ] T007 [P] Create Next.js configuration in next.config.js (static export settings)
-- [ ] T008 [P] Set up package.json scripts (dev, build, start, test, lint, format)
+- [X] T001 Initialize Next.js project with TypeScript in repository root using create-next-app
+- [X] T002 [P] Configure TypeScript compiler options in tsconfig.json (strict mode, path aliases)
+- [X] T003 [P] Set up ESLint and Prettier configurations in .eslintrc.json and .prettierrc
+- [X] T004 [P] Install core dependencies: react@18, react-dom@18, next@14, typescript
+- [X] T005 [P] Create directory structure: src/app/, src/components/, src/lib/, src/__tests__/
+- [X] T006 [P] Configure Tailwind CSS in tailwind.config.js and src/app/globals.css
+- [X] T007 [P] Create Next.js configuration in next.config.js (static export settings)
+- [X] T008 [P] Set up package.json scripts (dev, build, start, test, lint, format)
 
 ---
 
@@ -41,17 +41,17 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T009 [P] Define PieceType enum in src/lib/types.ts (KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN)
-- [ ] T010 [P] Define Color enum in src/lib/types.ts (WHITE, BLACK)
-- [ ] T011 [P] Define Position interface in src/lib/types.ts (row: number, col: number)
-- [ ] T012 [P] Define Piece interface in src/lib/types.ts (id, type, color, position, hasMoved)
-- [ ] T013 [P] Define Square interface in src/lib/types.ts (position, piece, isHighlighted)
-- [ ] T014 [P] Define Move interface in src/lib/types.ts (piece, from, to, capturedPiece, specialMove)
-- [ ] T015 [P] Define GameState interface in src/lib/types.ts (board, currentTurn, selectedPiece, moveHistory, gameStatus, winner)
-- [ ] T016 [P] Define GameStatus enum in src/lib/types.ts (IN_PROGRESS, CHECK, CHECKMATE, STALEMATE)
-- [ ] T017 [P] Define SpecialMoveType enum in src/lib/types.ts (CASTLE_KINGSIDE, CASTLE_QUEENSIDE, EN_PASSANT, PROMOTION)
-- [ ] T018 Create board initialization function in src/lib/game-state.ts (8x8 grid with starting positions)
-- [ ] T019 Create piece movement validation utilities in src/lib/chess-rules.ts (isValidPosition helper)
+- [X] T009 [P] Define PieceType enum in src/lib/types.ts (KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN)
+- [X] T010 [P] Define Color enum in src/lib/types.ts (WHITE, BLACK)
+- [X] T011 [P] Define Position interface in src/lib/types.ts (row: number, col: number)
+- [X] T012 [P] Define Piece interface in src/lib/types.ts (id, type, color, position, hasMoved)
+- [X] T013 [P] Define Square interface in src/lib/types.ts (position, piece, isHighlighted)
+- [X] T014 [P] Define Move interface in src/lib/types.ts (piece, from, to, capturedPiece, specialMove)
+- [X] T015 [P] Define GameState interface in src/lib/types.ts (board, currentTurn, selectedPiece, moveHistory, gameStatus, winner)
+- [X] T016 [P] Define GameStatus enum in src/lib/types.ts (IN_PROGRESS, CHECK, CHECKMATE, STALEMATE)
+- [X] T017 [P] Define SpecialMoveType enum in src/lib/types.ts (CASTLE_KINGSIDE, CASTLE_QUEENSIDE, EN_PASSANT, PROMOTION)
+- [X] T018 Create board initialization function in src/lib/game-state.ts (8x8 grid with starting positions)
+- [X] T019 Create piece movement validation utilities in src/lib/chess-rules.ts (isValidPosition helper)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -170,13 +170,13 @@
 **Purpose**: Improvements that affect multiple user stories
 
 - [ ] T063 [P] Add responsive design for mobile devices in src/app/globals.css (board scaling, touch-friendly)
-- [ ] T064 [P] Implement keyboard accessibility in src/components/ChessSquare.tsx (tab navigation, enter to select)
+- [ ] T064 [P] Add basic keyboard accessibility in src/components/ChessSquare.tsx (exploratory: Tab focus, Enter to interact - refine based on testing)
 - [ ] T065 [P] Add loading state for initial render in src/app/page.tsx
 - [ ] T066 [P] Optimize re-rendering with React.memo on ChessSquare and ChessPiece components
 - [ ] T067 [P] Add error boundary component in src/app/layout.tsx (catch and display runtime errors)
 - [ ] T068 [P] Create README.md in repository root (setup instructions, how to play)
 - [ ] T069 [P] Add favicon and metadata in src/app/layout.tsx (chess piece icon, page title)
-- [ ] T070 Validate all acceptance scenarios from spec.md (manual testing checklist)
+- [ ] T070 Validate all acceptance scenarios from spec.md (manual testing checklist including performance: initial load <2s, move feedback <100ms perceived responsiveness)
 
 ---
 

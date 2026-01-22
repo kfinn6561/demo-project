@@ -2,9 +2,7 @@
  * Global styles for the chess game application
  */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* Reset and base styles */
 * {

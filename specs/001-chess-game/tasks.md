@@ -100,10 +100,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T042 [US3] Update move validation to allow captures in src/lib/chess-rules.ts (mark opponent-occupied squares as valid)
-- [ ] T043 [US3] Implement capture logic in move execution in src/lib/game-state.ts (remove captured piece from board)
-- [ ] T044 [US3] Update ChessSquare component to visually distinguish capturable squares in src/components/ChessSquare.tsx
-- [ ] T045 [US3] Update pawn capture validation in src/lib/chess-rules.ts (diagonal capture only, not forward)
+- [X] T042 [US3] Update move validation to allow captures in src/lib/chess-rules.ts (mark opponent-occupied squares as valid)
+- [X] T043 [US3] Implement capture logic in move execution in src/lib/game-state.ts (remove captured piece from board)
+- [X] T044 [US3] Update ChessSquare component to visually distinguish capturable squares in src/components/ChessSquare.tsx
+- [X] T045 [US3] Update pawn capture validation in src/lib/chess-rules.ts (diagonal capture only, not forward)
 
 **Checkpoint**: At this point, User Stories 1 AND 3 (full MVP) should both work independently
 

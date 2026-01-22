@@ -185,9 +185,13 @@ export function useGameState() {
         ) {
           selectPiece(clickedPiece);
         }
-        // If clicking an empty square or opponent piece, try to move
-        else {
+        // If clicking a highlighted square (valid move), execute the move
+        else if (clickedSquare.isHighlighted) {
           executeMove(gameState.selectedPiece, position);
+        }
+        // If clicking a non-highlighted square, deselect (cancel selection)
+        else {
+          deselectPiece();
         }
       }
     },

@@ -28,3 +28,35 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
 }
+
+/* Highlight animations */
+@keyframes pulse-highlight {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.highlight-dot {
+  animation: pulse-highlight 2s ease-in-out infinite;
+}
+
+.highlight-ring {
+  animation: pulse-highlight 2s ease-in-out infinite;
+}
+
+/* Smooth transitions for squares */
+.chess-square {
+  transition: all 0.2s ease-in-out;
+}
+
+.chess-square:hover {
+  transform: scale(1.02);
+}
+
+.chess-square.highlighted:hover {
+  filter: brightness(1.1);
+}
+

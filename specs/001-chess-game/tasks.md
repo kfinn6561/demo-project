@@ -117,12 +117,12 @@
 
 ### Implementation for User Story 2
 
-- [ ] T046 [US2] Add highlighting state to Square interface (isHighlighted boolean already defined in types)
-- [ ] T047 [US2] Implement highlight calculation when piece selected in src/lib/game-state.ts (set isHighlighted for legal moves)
-- [ ] T048 [US2] Update ChessSquare component to render highlight indicator in src/components/ChessSquare.tsx (CSS class or overlay)
-- [ ] T049 [US2] Add highlight styles to globals.css (background color, border, or dot indicator)
-- [ ] T050 [US2] Implement selection cancellation on empty square click in src/lib/game-state.ts (clear selectedPiece and highlights)
-- [ ] T051 [US2] Add hover effect for highlighted squares in src/components/ChessSquare.tsx
+- [X] T046 [US2] Add highlighting state to Square interface (isHighlighted boolean already defined in types)
+- [X] T047 [US2] Implement highlight calculation when piece selected in src/lib/game-state.ts (set isHighlighted for legal moves)
+- [X] T048 [US2] Update ChessSquare component to render highlight indicator in src/components/ChessSquare.tsx (CSS class or overlay)
+- [X] T049 [US2] Add highlight styles to globals.css (background color, border, or dot indicator)
+- [X] T050 [US2] Implement selection cancellation on empty square click in src/lib/game-state.ts (clear selectedPiece and highlights)
+- [X] T051 [US2] Add hover effect for highlighted squares in src/components/ChessSquare.tsx
 
 **Checkpoint**: Move highlighting should work independently while maintaining full gameplay from US1+US3
 

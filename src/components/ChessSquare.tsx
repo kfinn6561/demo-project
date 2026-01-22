@@ -25,9 +25,10 @@ export default function ChessSquare({ square, onClick }: ChessSquareProps) {
     <button
       onClick={onClick}
       className={`
+        chess-square
         relative w-16 h-16 flex items-center justify-center
         ${squareColor}
-        hover:opacity-80 transition-opacity
+        ${isHighlighted ? "highlighted" : ""}
         ${isHighlighted && !isCapturable ? "ring-4 ring-green-500 ring-inset" : ""}
         ${isCapturable ? "ring-4 ring-red-500 ring-inset" : ""}
       `}
@@ -35,11 +36,11 @@ export default function ChessSquare({ square, onClick }: ChessSquareProps) {
     >
       {piece && <ChessPiece piece={piece} />}
       {isHighlighted && !piece && (
-        <div className="w-4 h-4 bg-green-500 rounded-full opacity-60" />
+        <div className="highlight-dot w-4 h-4 bg-green-500 rounded-full" />
       )}
       {isCapturable && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-14 h-14 border-4 border-red-500 rounded-full opacity-70" />
+          <div className="highlight-ring w-14 h-14 border-4 border-red-500 rounded-full" />
         </div>
       )}
     </button>

@@ -2,6 +2,7 @@
  * ChessPiece component - Renders a chess piece using Unicode symbols
  */
 
+import { memo } from "react";
 import { Piece, PieceType, Color } from "../lib/types";
 
 interface ChessPieceProps {
@@ -27,12 +28,12 @@ const PIECE_SYMBOLS: Record<Color, Record<PieceType, string>> = {
   },
 };
 
-export default function ChessPiece({ piece }: ChessPieceProps) {
+function ChessPieceComponent({ piece }: ChessPieceProps) {
   const symbol = PIECE_SYMBOLS[piece.color][piece.type];
 
   return (
     <span
-      className="text-5xl leading-none select-none"
+      className="text-3xl sm:text-5xl leading-none select-none"
       role="img"
       aria-label={`${piece.color} ${piece.type}`}
     >
@@ -40,3 +41,6 @@ export default function ChessPiece({ piece }: ChessPieceProps) {
     </span>
   );
 }
+
+// Memoize to prevent unnecessary re-renders
+export default memo(ChessPieceComponent);

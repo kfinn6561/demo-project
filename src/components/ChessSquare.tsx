@@ -2,6 +2,7 @@
  * ChessSquare component - Renders a single square on the chess board
  */
 
+import { memo } from "react";
 import { Square } from "../lib/types";
 import ChessPiece from "./ChessPiece";
 
@@ -10,7 +11,7 @@ interface ChessSquareProps {
   onClick: () => void;
 }
 
-export default function ChessSquare({ square, onClick }: ChessSquareProps) {
+function ChessSquareComponent({ square, onClick }: ChessSquareProps) {
   const { position, piece, isHighlighted } = square;
   const { row, col } = position;
 
@@ -26,23 +27,26 @@ export default function ChessSquare({ square, onClick }: ChessSquareProps) {
       onClick={onClick}
       className={`
         chess-square
-        relative w-16 h-16 flex items-center justify-center
+        relative w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center
         ${squareColor}
         ${isHighlighted ? "highlighted" : ""}
-        ${isHighlighted && !isCapturable ? "ring-4 ring-green-500 ring-inset" : ""}
-        ${isCapturable ? "ring-4 ring-red-500 ring-inset" : ""}
+        ${isHighlighted && !isCapturable ? "ring-2 sm:ring-4 ring-green-500 ring-inset" : ""}
+        ${isCapturable ? "ring-2 sm:ring-4 ring-red-500 ring-inset" : ""}
       `}
       aria-label={`Square ${String.fromCharCode(97 + col)}${8 - row}`}
     >
       {piece && <ChessPiece piece={piece} />}
       {isHighlighted && !piece && (
-        <div className="highlight-dot w-4 h-4 bg-green-500 rounded-full" />
+        <div className="highlight-dot w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded-full" />
       )}
       {isCapturable && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="highlight-ring w-14 h-14 border-4 border-red-500 rounded-full" />
+          <div className="highlight-ring w-10 h-10 sm:w-14 sm:h-14 border-2 sm:border-4 border-red-500 rounded-full" />
         </div>
       )}
     </button>
   );
 }
+
+// Memoize to prevent unnecessary re-renders
+export default memo(ChessSquareComponent);

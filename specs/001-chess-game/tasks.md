@@ -156,10 +156,10 @@
 
 ### Implementation for User Story 5
 
-- [ ] T059 [P] [US5] Create NewGameButton component in src/components/NewGameButton.tsx (button with click handler)
-- [ ] T060 [US5] Implement reset game function in src/lib/game-state.ts (restore initial GameState)
-- [ ] T061 [US5] Integrate NewGameButton into main page in src/app/page.tsx (place above or below board)
-- [ ] T062 [US5] Style NewGameButton in src/components/NewGameButton.tsx (Tailwind classes or CSS module)
+- [X] T059 [P] [US5] Create NewGameButton component in src/components/NewGameButton.tsx (button with click handler)
+- [X] T060 [US5] Implement reset game function in src/lib/game-state.ts (restore initial GameState)
+- [X] T061 [US5] Integrate NewGameButton into main page in src/app/page.tsx (place above or below board)
+- [X] T062 [US5] Style NewGameButton in src/components/NewGameButton.tsx (Tailwind classes or CSS module)
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -169,14 +169,14 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T063 [P] Add responsive design for mobile devices in src/app/globals.css (board scaling, touch-friendly)
-- [ ] T064 [P] Implement keyboard accessibility in src/components/ChessSquare.tsx (tab navigation, enter to select)
-- [ ] T065 [P] Add loading state for initial render in src/app/page.tsx
-- [ ] T066 [P] Optimize re-rendering with React.memo on ChessSquare and ChessPiece components
-- [ ] T067 [P] Add error boundary component in src/app/layout.tsx (catch and display runtime errors)
-- [ ] T068 [P] Create README.md in repository root (setup instructions, how to play)
-- [ ] T069 [P] Add favicon and metadata in src/app/layout.tsx (chess piece icon, page title)
-- [ ] T070 Validate all acceptance scenarios from spec.md (manual testing checklist)
+- [X] T063 [P] Add responsive design for mobile devices in src/app/globals.css (board scaling, touch-friendly)
+- [X] T064 [P] Implement keyboard accessibility in src/components/ChessSquare.tsx (tab navigation, enter to select)
+- [X] T065 [P] Add loading state for initial render in src/app/page.tsx
+- [X] T066 [P] Optimize re-rendering with React.memo on ChessSquare and ChessPiece components
+- [X] T067 [P] Add error boundary component in src/app/layout.tsx (catch and display runtime errors)
+- [X] T068 [P] Create README.md in repository root (setup instructions, how to play)
+- [X] T069 [P] Add favicon and metadata in src/app/layout.tsx (chess piece icon, page title)
+- [X] T070 Validate all acceptance scenarios from spec.md (manual testing checklist)
 
 ---
 

@@ -2,6 +2,9 @@
  * Game state initialization and management functions
  */
 
+"use client";
+
+import { useState, useCallback } from "react";
 import {
   Board,
   Square,
@@ -11,7 +14,15 @@ import {
   Position,
   GameState,
   GameStatus,
+  Move,
 } from "./types";
+import {
+  getLegalMoves,
+  isKingInCheck,
+  isCheckmate,
+  isStalemate,
+} from "./move-generator";
+import { positionsEqual } from "./chess-rules";
 
 /**
  * Creates a piece with the given properties
@@ -124,5 +135,196 @@ export function createInitialGameState(): GameState {
     moveHistory: [],
     gameStatus: GameStatus.IN_PROGRESS,
     winner: null,
+  };
+}
+
+/**
+ * Custom hook for managing chess game state
+ */
+export function useGameState() {
+  const [gameState, setGameState] = useState<GameState>(
+    createInitialGameState()
+  );
+
+  /**
+   * Handles square click - either selects a piece or moves a selected piece
+   */
+  const handleSquareClick = useCallback(
+    (position: Position) => {
+      // Don't allow moves if game is over
+      if (
+        gameState.gameStatus === GameStatus.CHECKMATE ||
+        gameState.gameStatus === GameStatus.STALEMATE ||
+        gameState.gameStatus === GameStatus.DRAW
+      ) {
+        return;
+      }
+
+      const clickedSquare = gameState.board[position.row][position.col];
+      const clickedPiece = clickedSquare.piece;
+
+      // If no piece is selected
+      if (!gameState.selectedPiece) {
+        // Select piece if it belongs to the current player
+        if (clickedPiece && clickedPiece.color === gameState.currentTurn) {
+          selectPiece(clickedPiece);
+        }
+      } else {
+        // If piece is already selected
+        // If clicking the same piece, deselect it
+        if (
+          clickedPiece &&
+          clickedPiece.id === gameState.selectedPiece.id
+        ) {
+          deselectPiece();
+        }
+        // If clicking another piece of the same color, select that piece instead
+        else if (
+          clickedPiece &&
+          clickedPiece.color === gameState.currentTurn
+        ) {
+          selectPiece(clickedPiece);
+        }
+        // If clicking an empty square or opponent piece, try to move
+        else {
+          executeMove(gameState.selectedPiece, position);
+        }
+      }
+    },
+    [gameState]
+  );
+
+  /**
+   * Selects a piece and highlights its legal moves
+   */
+  const selectPiece = useCallback(
+    (piece: Piece) => {
+      const legalMoves = getLegalMoves(piece, gameState.board);
+
+      // Create new board with highlights
+      const newBoard = gameState.board.map((row) =>
+        row.map((square) => ({
+          ...square,
+          isHighlighted: legalMoves.some((move) =>
+            positionsEqual(move, square.position)
+          ),
+        }))
+      );
+
+      setGameState({
+        ...gameState,
+        selectedPiece: piece,
+        board: newBoard,
+      });
+    },
+    [gameState]
+  );
+
+  /**
+   * Deselects the current piece and removes highlights
+   */
+  const deselectPiece = useCallback(() => {
+    // Remove all highlights
+    const newBoard = gameState.board.map((row) =>
+      row.map((square) => ({
+        ...square,
+        isHighlighted: false,
+      }))
+    );
+
+    setGameState({
+      ...gameState,
+      selectedPiece: null,
+      board: newBoard,
+    });
+  }, [gameState]);
+
+  /**
+   * Executes a move if legal
+   */
+  const executeMove = useCallback(
+    (piece: Piece, targetPos: Position) => {
+      // Check if move is legal
+      const legalMoves = getLegalMoves(piece, gameState.board);
+      const isLegalMove = legalMoves.some((move) =>
+        positionsEqual(move, targetPos)
+      );
+
+      if (!isLegalMove) {
+        // Invalid move - just deselect
+        deselectPiece();
+        return;
+      }
+
+      // Create new board with the move applied
+      const newBoard = gameState.board.map((row) =>
+        row.map((square) => ({ ...square, isHighlighted: false }))
+      );
+
+      const { row: fromRow, col: fromCol } = piece.position;
+      const { row: toRow, col: toCol } = targetPos;
+
+      // Capture piece if present
+      const capturedPiece = newBoard[toRow][toCol].piece;
+
+      // Move the piece
+      newBoard[toRow][toCol].piece = {
+        ...piece,
+        position: targetPos,
+        hasMoved: true,
+      };
+      newBoard[fromRow][fromCol].piece = null;
+
+      // Create move record
+      const move: Move = {
+        piece,
+        from: piece.position,
+        to: targetPos,
+        capturedPiece: capturedPiece || undefined,
+        timestamp: Date.now(),
+      };
+
+      // Toggle turn
+      const nextTurn =
+        gameState.currentTurn === Color.WHITE ? Color.BLACK : Color.WHITE;
+
+      // Check for check, checkmate, or stalemate
+      let newGameStatus = GameStatus.IN_PROGRESS;
+      let winner: Color | null = null;
+
+      if (isCheckmate(newBoard, nextTurn)) {
+        newGameStatus = GameStatus.CHECKMATE;
+        winner = gameState.currentTurn; // Current player wins
+      } else if (isStalemate(newBoard, nextTurn)) {
+        newGameStatus = GameStatus.STALEMATE;
+        winner = null;
+      } else if (isKingInCheck(newBoard, nextTurn)) {
+        newGameStatus = GameStatus.CHECK;
+      }
+
+      // Update game state
+      setGameState({
+        board: newBoard,
+        currentTurn: nextTurn,
+        selectedPiece: null,
+        moveHistory: [...gameState.moveHistory, move],
+        gameStatus: newGameStatus,
+        winner,
+      });
+    },
+    [gameState, deselectPiece]
+  );
+
+  /**
+   * Resets the game to initial state
+   */
+  const resetGame = useCallback(() => {
+    setGameState(createInitialGameState());
+  }, []);
+
+  return {
+    gameState,
+    handleSquareClick,
+    resetGame,
   };
 }

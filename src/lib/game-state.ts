@@ -15,6 +15,7 @@ import {
   GameState,
   GameStatus,
   Move,
+  SpecialMoveType,
 } from "./types";
 import {
   getLegalMoves,
@@ -135,6 +136,7 @@ export function createInitialGameState(): GameState {
     moveHistory: [],
     gameStatus: GameStatus.IN_PROGRESS,
     winner: null,
+    lastMove: null,
   };
 }
 
@@ -195,6 +197,7 @@ export function useGameState() {
         }
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [gameState]
   );
 
@@ -203,7 +206,7 @@ export function useGameState() {
    */
   const selectPiece = useCallback(
     (piece: Piece) => {
-      const legalMoves = getLegalMoves(piece, gameState.board);
+      const legalMoves = getLegalMoves(piece, gameState.board, gameState.lastMove);
 
       // Create new board with highlights
       const newBoard = gameState.board.map((row) =>
@@ -249,7 +252,7 @@ export function useGameState() {
   const executeMove = useCallback(
     (piece: Piece, targetPos: Position) => {
       // Check if move is legal
-      const legalMoves = getLegalMoves(piece, gameState.board);
+      const legalMoves = getLegalMoves(piece, gameState.board, gameState.lastMove);
       const isLegalMove = legalMoves.some((move) =>
         positionsEqual(move, targetPos)
       );
@@ -269,14 +272,64 @@ export function useGameState() {
       const { row: toRow, col: toCol } = targetPos;
 
       // Capture piece if present
-      const capturedPiece = newBoard[toRow][toCol].piece;
+      let capturedPiece = newBoard[toRow][toCol].piece;
+      let specialMove: SpecialMoveType | undefined;
+
+      // Handle special moves
+
+      // Castling
+      if (piece.type === PieceType.KING && Math.abs(toCol - fromCol) === 2) {
+        specialMove = toCol > fromCol ? SpecialMoveType.CASTLE_KINGSIDE : SpecialMoveType.CASTLE_QUEENSIDE;
+
+        // Move the rook
+        const rookFromCol = toCol > fromCol ? 7 : 0;
+        const rookToCol = toCol > fromCol ? toCol - 1 : toCol + 1;
+        const rook = newBoard[fromRow][rookFromCol].piece;
+
+        if (rook) {
+          newBoard[fromRow][rookToCol].piece = {
+            ...rook,
+            position: { row: fromRow, col: rookToCol },
+            hasMoved: true,
+          };
+          newBoard[fromRow][rookFromCol].piece = null;
+        }
+      }
+
+      // En passant
+      if (
+        piece.type === PieceType.PAWN &&
+        Math.abs(toCol - fromCol) === 1 &&
+        !capturedPiece &&
+        gameState.lastMove
+      ) {
+        // Capture the pawn that moved two squares
+        const enPassantRow = piece.color === Color.WHITE ? 3 : 4;
+        if (fromRow === enPassantRow) {
+          capturedPiece = newBoard[fromRow][toCol].piece;
+          newBoard[fromRow][toCol].piece = null;
+          specialMove = SpecialMoveType.EN_PASSANT;
+        }
+      }
 
       // Move the piece
-      newBoard[toRow][toCol].piece = {
+      let movedPiece = {
         ...piece,
         position: targetPos,
         hasMoved: true,
       };
+
+      // Pawn promotion to rook (automatic)
+      if (piece.type === PieceType.PAWN && (toRow === 0 || toRow === 7)) {
+        movedPiece = {
+          ...movedPiece,
+          type: PieceType.ROOK,
+          id: `${piece.color}-rook-promoted-${Date.now()}`,
+        };
+        specialMove = SpecialMoveType.PROMOTION;
+      }
+
+      newBoard[toRow][toCol].piece = movedPiece;
       newBoard[fromRow][fromCol].piece = null;
 
       // Create move record
@@ -285,6 +338,7 @@ export function useGameState() {
         from: piece.position,
         to: targetPos,
         capturedPiece: capturedPiece || undefined,
+        specialMove,
         timestamp: Date.now(),
       };
 
@@ -314,6 +368,7 @@ export function useGameState() {
         moveHistory: [...gameState.moveHistory, move],
         gameStatus: newGameStatus,
         winner,
+        lastMove: move,
       });
     },
     [gameState, deselectPiece]

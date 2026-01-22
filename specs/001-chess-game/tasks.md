@@ -136,13 +136,13 @@
 
 ### Implementation for User Story 4
 
-- [ ] T052 [P] [US4] Implement castling validation in src/lib/chess-rules.ts (king and rook unmoved, path clear, not in check)
-- [ ] T053 [P] [US4] Implement castling execution in src/lib/game-state.ts (move both king and rook simultaneously)
-- [ ] T054 [P] [US4] Implement en passant validation in src/lib/chess-rules.ts (pawn beside opponent pawn that just moved two squares)
-- [ ] T055 [P] [US4] Implement en passant execution in src/lib/game-state.ts (capture pawn behind destination square)
-- [ ] T056 [P] [US4] Track en passant opportunity in GameState (lastMove or enPassantSquare field)
-- [ ] T057 [US4] Implement automatic pawn promotion to rook in src/lib/game-state.ts (when pawn reaches row 0 or 7)
-- [ ] T058 [US4] Update hasMoved tracking for kings and rooks in src/lib/game-state.ts (set true after first move)
+- [X] T052 [P] [US4] Implement castling validation in src/lib/chess-rules.ts (king and rook unmoved, path clear, not in check)
+- [X] T053 [P] [US4] Implement castling execution in src/lib/game-state.ts (move both king and rook simultaneously)
+- [X] T054 [P] [US4] Implement en passant validation in src/lib/chess-rules.ts (pawn beside opponent pawn that just moved two squares)
+- [X] T055 [P] [US4] Implement en passant execution in src/lib/game-state.ts (capture pawn behind destination square)
+- [X] T056 [P] [US4] Track en passant opportunity in GameState (lastMove or enPassantSquare field)
+- [X] T057 [US4] Implement automatic pawn promotion to rook in src/lib/game-state.ts (when pawn reaches row 0 or 7)
+- [X] T058 [US4] Update hasMoved tracking for kings and rooks in src/lib/game-state.ts (set true after first move)
 
 **Checkpoint**: All special moves should work while maintaining all previous functionality
 

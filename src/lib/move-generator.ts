@@ -8,6 +8,7 @@ import {
   Board,
   PieceType,
   Color,
+  GameState,
 } from "./types";
 import {
   isValidPosition,
@@ -23,7 +24,11 @@ import {
  * Generates all pseudo-legal moves for a piece (before check validation)
  * Returns array of valid destination positions
  */
-export function getPseudoLegalMoves(piece: Piece, board: Board): Position[] {
+export function getPseudoLegalMoves(
+  piece: Piece,
+  board: Board,
+  lastMove?: { piece: Piece; from: Position; to: Position } | null
+): Position[] {
   const moves: Position[] = [];
 
   // Check all possible positions on the board
@@ -40,7 +45,7 @@ export function getPseudoLegalMoves(piece: Piece, board: Board): Position[] {
       let isValid = false;
       switch (piece.type) {
         case PieceType.PAWN:
-          isValid = isValidPawnMove(piece, targetPos, board);
+          isValid = isValidPawnMove(piece, targetPos, board, lastMove);
           break;
         case PieceType.ROOK:
           isValid = isValidRookMove(piece, targetPos, board);
@@ -71,8 +76,12 @@ export function getPseudoLegalMoves(piece: Piece, board: Board): Position[] {
 /**
  * Generates all legal moves for a piece (pseudo-legal moves that don't leave king in check)
  */
-export function getLegalMoves(piece: Piece, board: Board): Position[] {
-  const pseudoLegalMoves = getPseudoLegalMoves(piece, board);
+export function getLegalMoves(
+  piece: Piece,
+  board: Board,
+  lastMove?: { piece: Piece; from: Position; to: Position } | null
+): Position[] {
+  const pseudoLegalMoves = getPseudoLegalMoves(piece, board, lastMove);
 
   // Filter out moves that would leave own king in check
   return pseudoLegalMoves.filter(move => !leavesKingInCheck(board, piece, move));

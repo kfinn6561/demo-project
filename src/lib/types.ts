@@ -102,4 +102,5 @@ export interface GameState {
   moveHistory: Move[];
   gameStatus: GameStatus;
   winner: Color | null;
+  lastMove: Move | null; // Track last move for en passant
 }
